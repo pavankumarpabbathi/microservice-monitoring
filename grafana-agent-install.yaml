@@ -28,7 +28,7 @@ agent:
         configs:
           - name: integrations
             remote_write:
-            - url: "http://<MIMIR_NGINX_SERVICE_NAME>.<NAMESPACE>.svc:80/api/v1/push"
+            - url: "http://<MIMIR_NGINX_HOST_NAME>/api/v1/push"
             scrape_configs:
             - job_name: integrations/kubernetes/cadvisor
               bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token

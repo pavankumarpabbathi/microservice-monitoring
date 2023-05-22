@@ -1,0 +1,23 @@
+tempo:
+  # Tempo server configuration
+  # Refers to https://grafana.com/docs/tempo/latest/configuration/#server
+  server:
+    # -- HTTP server listen port
+    http_listen_port: 3100
+    
+  distributor:
+    config:
+      log_received_spans:
+        enabled: true  
+  storage:
+    trace:
+      # tempo storage backend
+      # refer https://grafana.com/docs/tempo/latest/configuration/
+      ## Use s3 for example
+      backend: s3
+      s3:
+        bucket: <BucketName>                                   # store traces in this bucket
+        endpoint: s3.amazonaws.com  # api endpoint
+        access_key: <ACCESS_KEY>                                 # optional. access key when using static credentials.
+        secret_key: <SECRET_KEY>                                 # optional. secret key when using static credentials.
+        insecure: false                                 # optional. enable if endpoint is http
