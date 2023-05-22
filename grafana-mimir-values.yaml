@@ -1,0 +1,60 @@
+global:
+  # extraEnvFrom:
+  #   - secretRef:
+  #       name: mimir-bucket-secret
+  podAnnotations:
+    bucketSecretVersion: "0"
+
+# This turns of the built-in MinIO support
+minio:
+  enabled: false
+
+mimir:
+  structuredConfig:
+    alertmanager_storage:
+      s3:
+        bucket_name: <BUCKE_NAME>
+        access_key_id: <ACCESS_KEY>
+        endpoint: s3.amazonaws.com
+        secret_access_key: <SECRET_KEY>
+    blocks_storage:
+      backend: s3
+      s3:
+        bucket_name: <BUCKE_NAME>
+        access_key_id: <ACCESS_KEY>
+        endpoint: s3.amazonaws.com
+        secret_access_key: <SECRET_KEY>
+    ruler_storage:
+      s3:
+        bucket_name: <BUCKE_NAME>
+        access_key_id: <ACCESS_KEY>
+        endpoint: s3.amazonaws.com
+        secret_access_key: <SECRET_KEY>
+nginx:
+  # -- Specifies whether nginx should be enabled
+  enabled: true
+  # -- Number of replicas for nginx
+  replicas: 2
+  ingress:
+    # -- Specifies whether an ingress for the nginx should be created
+    enabled: true
+    # -- Ingress Class Name. MAY be required for Kubernetes versions >= 1.18
+    ingressClassName: nginx
+    # -- Annotations for the nginx ingress
+    annotations: 
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+    # -- Hosts configuration for the nginx ingress
+    hosts:
+      - host: <HOST_NAME>
+        paths:
+          - path: /
+            # -- pathType (e.g. ImplementationSpecific, Prefix, .. etc.) might also be required by some Ingress Controllers
+            pathType: Prefix
+    # -- TLS configuration for the nginx ingress
+    tls: []
+      #- secretName: mimir-nginx-tls
+      #  hosts:
+      #    - nginx.mimir.pm61data.io
+
+distributor:
+  replicas: 2

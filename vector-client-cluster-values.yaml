@@ -1,0 +1,34 @@
+role: "Agent"
+service:
+  ports:
+    - name: prom-exporter
+      port: 9090
+      protocol: TCP
+customConfig:
+  data_dir: /vector-data-dir
+  timezone: "local"
+  sources:
+    k8s_logs:
+      type: kubernetes_logs
+      glob_minimum_cooldown_ms: 500
+  sinks:
+    loki:
+      type: loki
+      encoding: 
+        codec: json
+      batch: 
+        timeout_secs: 60
+      inputs:
+        - k8s_logs
+      tls:
+        crt_file: |
+          < crt_file >
+        key_file: |
+          < KEY_FILE >
+      endpoint: <LOKI_ENDPOINT>
+      labels:
+         cluster_name: <CLUSTER_NAME>
+         namespace: "{{`{{ kubernetes.pod_namespace }}`}}"
+         pod_name: "{{`{{ kubernetes.pod_name }}`}}"
+         container_name: "{{`{{ kubernetes.container_name }}`}}"
+         message: "{{`{{ message }}`}}"

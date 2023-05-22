@@ -1,0 +1,21 @@
+loki:
+  enabled: true
+  config:
+   schema_config:
+    configs:
+    - from: 2020-10-24
+      store: boltdb-shipper
+      object_store: s3
+      schema: v11
+      index:
+        prefix: index_
+        period: 24h 
+   storage_config:
+     aws:
+      s3: s3://<BUCKET_REGION>
+      bucketnames: <BucketName>
+      region: <BUCKET_REGION>
+      s3forcepathstyle: true
+     boltdb_shipper:
+      shared_store: s3
+      cache_ttl: 24h
