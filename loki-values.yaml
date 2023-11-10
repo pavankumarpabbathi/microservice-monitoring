@@ -1,4 +1,3 @@
-###Enabled loki
 loki:
   enabled: true
   config:
