@@ -4,6 +4,11 @@ tempo:
   server:
     # -- HTTP server listen port
     http_listen_port: 3100
+  
+  metricsGenerator:
+    # -- If true, enables Tempo's metrics generator (https://grafana.com/docs/tempo/next/metrics-generator/)
+    enabled: true
+    remoteWriteUrl: "http://mimir-nginx.monitoring.svc:80/api/v1/push"
     
   distributor:
     config:
